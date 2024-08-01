@@ -137,11 +137,11 @@ export class PatientChatComponent implements OnInit, OnDestroy {
   loadMessages() {
     this.chatService.getMessages(this.senderId, this.receiverId).subscribe({
       next: (response) => {
-        console.log("These are messages", response);
+        console.log("These are messages!!!", response);
         this.chatMessages = response; // Load messages into chatMessages array
       },
       error: (error) => {
-        console.error('Error loading messages:', error);
+        console.error('Error loading messages:!!!', error);
       }
     });
   };
