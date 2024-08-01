@@ -1,0 +1,51 @@
+<div class="container">
+    <h2>Subscriptions</h2>
+    <ul>
+      <li *ngFor="let subscription of subscriptions">
+        {{ subscription.plan }} - {{ subscription.features}} - {{ subscription.price }}
+      </li>
+    </ul>
+  </div>
+
+  <p-button (click)="showDialog()" label="Add Subscription"></p-button>
+
+  <p-dialog header="Add Subscription" [(visible)]="visible" [style]="{ 'max-width': '600px' }">
+      <span class="p-text-secondary block mb-5">Enter subscription details:</span>
+      
+      <div class="flex align-items-center gap-3 mb-3">
+          <label for="plan" class="font-semibold w-6rem">Plan</label>
+          <input pInputText id="plan" class="flex-auto" [(ngModel)]="newSubscription.plan" autocomplete="off" />
+      </div>
+      
+      <div class="flex align-items-center gap-3 mb-3">
+          <label for="price" class="font-semibold w-6rem">Price</label>
+          <input pInputNumber id="price" class="flex-auto" [(ngModel)]="newSubscription.price" autocomplete="off" />
+      </div>
+      
+      <div class="flex align-items-center gap-3 mb-3">
+          <label for="features" class="font-semibold w-6rem">Features</label>
+          <input pInputText id="features" class="flex-auto" [(ngModel)]="newSubscription.features" autocomplete="off" />
+      </div>
+      
+      <div class="flex align-items-center gap-3 mb-3">
+          <label for="active" class="font-semibold w-6rem">Active</label>
+          <p-inputSwitch id="active" class="flex-auto" [(ngModel)]="newSubscription.active"></p-inputSwitch>
+      </div>
+      
+      <div class="flex align-items-center gap-3 mb-3">
+          <label for="startDate" class="font-semibold w-6rem">Start Date</label>
+          <p-calendar id="startDate" class="flex-auto" [(ngModel)]="newSubscription.startDate" dateFormat="yy-mm-dd" [showIcon]="true"></p-calendar>
+      </div>
+      
+      <div class="flex align-items-center gap-3 mb-5">
+          <label for="endDate" class="font-semibold w-6rem">End Date</label>
+          <p-calendar id="endDate" class="flex-auto" [(ngModel)]="newSubscription.endDate" dateFormat="yy-mm-dd" [showIcon]="true"></p-calendar>
+      </div>
+      
+      <div class="flex justify-content-end gap-2">
+          <p-button label="Cancel" icon="pi pi-times" class="p-button-secondary" (click)="visible = false"></p-button>
+          <!-- <p-button label="Save" icon="pi pi-check" (click)="saveSubscription()" class="p-button-success"></p-button> -->
+      </div>
+  </p-dialog>
+
+

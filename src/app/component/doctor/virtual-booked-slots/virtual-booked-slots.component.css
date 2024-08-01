@@ -1,0 +1,150 @@
+.certificate-button {
+  padding: 17px 40px;
+  border-radius: 50px;
+  cursor: pointer;
+  border: 0;
+  background-color: rgb(255, 255, 255);
+  box-shadow: rgba(0, 0, 0, 0.05) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+.certificate-button:hover {
+  letter-spacing: 3px;
+  background-color: hsl(157, 53%, 51%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 7px 29px 0px;
+}
+
+.certificate-button:active {
+  letter-spacing: 3px;
+  background-color: hsl(157, 53%, 51%);
+  color: hsl(0, 0%, 0%);
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 0px 0px 0px;
+  transform: translateY(10px);
+  transition: 100ms;
+}
+
+.chatBtn {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  background-color: #000000;
+  background-image: linear-gradient(147deg, #000000, #000000, #000000);
+  cursor: pointer;
+  padding-top: 3px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.164);
+  position: relative;
+  background-size: 300%;
+  background-position: left;
+  transition-duration: 1s;
+}
+
+.tooltip {
+  position: absolute;
+  top: -40px;
+  opacity: 0;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition-duration: .5s;
+  pointer-events: none;
+  letter-spacing: 0.5px;
+}
+
+.chatBtn:hover .tooltip {
+  opacity: 1;
+  transition-duration: .5s;
+}
+
+.chatBtn:hover {
+  background-position: right;
+  transition-duration: 1s;
+}
+
+
+
+
+.certificate-button1 {
+  padding: 17px 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 5;
+  background-color: rgb(255, 255, 255);
+  color: black;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 0 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 15px;
+  transition: all 0.5s ease;
+}
+
+.certificate-button1:hover {
+  letter-spacing: 3px;
+  background-color: hsl(0, 0%, 0%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: rgba(255, 0, 0, 0.7) 0px 7px 29px 0px;
+}
+
+.certificate-button1:active {
+  letter-spacing: 3px;
+  background-color: hsl(0, 0%, 100%);
+  color: hsl(0, 0%, 0%);
+  box-shadow: rgba(0, 0, 0, 0.7) 0px 0px 0px 0px;
+  transform: translateY(10px);
+  transition: 100ms;
+}
+
+
+::ng-deep .p-paginator {
+  background-color: #f3f4f6;
+  /*  background color */
+  border-radius: 0.25rem;
+  /*  border radius */
+  padding: 0.5rem;
+  /*  padding */
+}
+
+::ng-deep .p-paginator .p-paginator-pages li {
+  background-color: #e5e7eb;
+  /*  background color for page links */
+  border-radius: 0.25rem;
+  /*  border radius */
+  margin: 0.25rem;
+  /*  margin */
+}
+
+::ng-deep .p-paginator .p-paginator-page.p-highlight {
+  background-color: #2563eb;
+  /*  background color for active page */
+  color: #fff;
+  /*  text color for active page */
+}
+
+/* cancel Button */
+.cancelButton {
+  font-family: inherit;
+  border: none;
+  outline: 1px dotted rgb(37, 37, 37);
+  outline-offset: -4px;
+  background: hsl(0deg 0% 75%);
+  box-shadow: inset -1px -1px #292929, inset 1px 1px #fff, inset -2px -2px rgb(158, 158, 158), inset 2px 2px #ffffff;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 5px 30px;
+}
+
+.cancelButton:active {
+  box-shadow: inset -1px -1px #fff, inset 1px 1px #292929, inset -2px -2px #ffffff, inset 2px 2px rgb(158, 158, 158);
+}

@@ -1,0 +1,136 @@
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    border-radius: 15px;
+    /* Rounded corners for video container */
+    overflow: hidden;
+    /* Ensure content doesn't overflow */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    /* Add shadow for depth */
+}
+
+#remoteVideo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Make sure the video fills the container */
+}
+
+#localVideo {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 18vw;
+    /* Adjusted width for better appearance */
+    height: 18vh;
+    /* Adjusted height for better appearance */
+    border: 3px solid #ffffff;
+    /* Thicker border for visibility */
+    border-radius: 10px;
+    /* More rounded corners */
+    background: rgba(0, 0, 0, 0.6);
+    /* Slightly darker semi-transparent background */
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    /* Add shadow for better separation */
+}
+
+.end-call {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: none;
+    background-color: #FF2849;
+}
+
+.end-call:hover {
+    background-color: #e52441;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: none;
+    background-color: #003f88;
+}
+
+.button:hover {
+    background-color: #2bac47;
+}
+
+
+.buttonChat {
+    position: relative;
+    width: 6em;
+    height: 4em;
+    border: none;
+    background: none;
+}
+
+.X {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 33%;
+    width: 2em;
+    height: 1.5px;
+    background-color: #fff;
+    transform: rotate(45deg);
+}
+
+.Y {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 33%;
+    width: 2em;
+    height: 1.5px;
+    background-color: #fff;
+    transform: rotate(-45deg);
+}
+
+.close {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: -40%;
+    left: 70%;
+    width: 3em;
+    height: 1.7em;
+    font-size: 16px;
+    background-color: rgb(254, 255, 225);
+    color: #000;
+    border: 1px solid #000;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.buttonChat:hover {
+    background-color: rgb(210, 0, 0);
+}
+
+.buttonChat:active {
+    background-color: rgb(130, 0, 0);
+}
+
+.buttonChat:hover>.close {
+    animation: close 0.2s forwards 1.25s;
+}
+
+@keyframes close {
+    100% {
+        opacity: 1;
+    }
+}
+

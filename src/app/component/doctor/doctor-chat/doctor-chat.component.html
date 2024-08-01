@@ -1,0 +1,232 @@
+<div class="flex h-screen">
+  <!-- Sidebar for Patients -->
+  <div class="w-64 h-screen bg-red-900 text-white p-4 border-r border-black">
+    <!-- Sidebar header -->
+    <h2 class="text-2xl font-bold mb-6">Booked Patients</h2>
+
+    <!-- Patient list -->
+    <ul class="space-y-2">
+      <li *ngFor="let booking of uniqueBookings">
+        <button (click)="openChat(booking)"
+          class="w-full text-left px-4 py-2 bg-white hover:bg-black hover:text-white rounded-lg text-black font-medium transition duration-200">
+          {{ booking.userId.username }}
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Chat Area -->
+  <div class="flex flex-col flex-grow h-full">
+    <!-- Chat Header -->
+    <div class="flex items-center justify-between bg-slate-50 text-black p-4 border-b border-gray-300">
+      <h1 class="text-2xl font-bold">Chat with patient {{patientName}}</h1>
+      <div class="flex items-center gap-2">
+        <button class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800" (click)="startVideoCall()">Video
+          Call</button>
+        <button class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700" (click)="leaveChat()">Leave</button>
+      </div>
+    </div>
+
+    <!-- Chat Messages -->
+    <div class="flex flex-col flex-grow p-4 overflow-y-auto bg-yellow-50">
+      <div *ngFor="let message of chatMessages" class="mb-2 flex"
+        [ngClass]="{'justify-end': message.senderId === senderId, 'justify-start': message.senderId !== senderId}">
+        <div class="inline-block p-3 rounded-lg max-w-xs"
+          [ngClass]="message.senderId === senderId ? 'bg-green-600 text-white' : 'bg-gray-700 text-white'">
+          <p class="text-sm">{{ message.message }}</p>
+          <span class="block text-xs mt-1">{{ message.timestamp | date: 'shortTime' }}</span>
+          <div *ngIf="message.audioUrl" class="mt-2">
+            <audio [src]="message.audioUrl" controls></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input and Actions -->
+    <div class="flex flex-col p-4 border-t border-gray-300 bg-white space-y-4">
+      <div class="flex items-center mb-4 space-x-2">
+        <input [(ngModel)]="newMessage" type="text" placeholder="Type your message..."
+          class="flex-grow p-2 border-2 border-black rounded-lg focus:outline-none focus:ring focus:border-blue-300">
+        <button (click)="sendMessage()"
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring">Send</button>
+      </div>
+
+
+
+      <!-- Audio Recording Section -->
+      <div class="flex items-center mb-4 space-x-4">
+        <button class="button" id="start-recording" (click)="startRecording()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"
+            class="svg-icon">
+            <g stroke-width="2" stroke-linecap="round" stroke="#ff342b">
+              <rect y="3" x="9" width="6" rx="3" height="11"></rect>
+              <path d="m12 18v3"></path>
+              <path d="m8 21h8"></path>
+              <path d="m19 11c0 3.866-3.134 7-7 7-3.86599 0-7-3.134-7-7"></path>
+            </g>
+          </svg>
+          <span class="label">Record</span>
+        </button>
+        <button class="button" id="stop-recording" (click)="stopRecording()" [disabled]="!isRecording">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"
+            class="svg-icon">
+            <g stroke-width="2" stroke-linecap="round" stroke="#ff342b">
+              <path d="M5 5h14v14H5z"></path>
+            </g>
+          </svg>
+          <span class="label">Stop</span>
+        </button>
+        <button class="button" id="send-recording" (click)="sendRecording()" [disabled]="!audioBlob">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" height="24" fill="none"
+            class="svg-icon">
+            <g stroke-width="2" stroke-linecap="round" stroke="#ff342b">
+              <path d="M12 19v-6"></path>
+              <path d="M6 12h12"></path>
+              <path d="M6 9v6"></path>
+            </g>
+          </svg>
+          <span class="label">Send</span>
+        </button>
+        <div *ngIf="isRecording">
+          <div class="recording-indicator bg-red-500 w-4 h-4 rounded-full animate-pulse"></div>
+        </div>
+      </div>
+
+
+      <!-- Upload E-Prescription Button -->
+      <div class="flex justify-between items-center gap-2">
+        <div class="flex justify-center flex-grow">
+          <button pButton type="button"
+            class="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-900 focus:outline-none focus:ring"
+            (click)="openModal()">
+            Upload E-Prescription
+          </button>
+        </div>
+        <div class="ml-auto">
+          <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring"
+            (click)="openReportModal()">
+            Report Patient
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload E-Prescription Modal -->
+    <p-dialog header="Upload E-Prescription" [(visible)]="visible" [style]="{ width: '40rem' }" (onHide)="closeModal()">
+      <form [formGroup]="prescriptionForm" (ngSubmit)="uploadPrescription()">
+        <span class="p-text-secondary block mb-5">Enter prescription details below.</span>
+
+        <div formGroupName="patientInfo" class="mb-5">
+          <div class="flex items-center gap-3 mb-3">
+            <label for="patientName" class="font-semibold w-32">Patient Name</label>
+            <input pInputText id="patientName" formControlName="name"
+              [(ngModel)]="prescriptionForm.value.patientInfo.name"
+              class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <label for="age" class="font-semibold w-32">Age</label>
+            <input pInputText id="age" formControlName="age" [(ngModel)]="prescriptionForm.value.patientInfo.age"
+              type="number" class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <label for="gender" class="font-semibold w-32">Gender</label>
+            <input pInputText id="gender" formControlName="gender"
+              [(ngModel)]="prescriptionForm.value.patientInfo.gender"
+              class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+          </div>
+        </div>
+
+        <div formGroupName="doctorInfo" class="mb-5">
+          <div class="flex items-center gap-3 mb-3">
+            <label for="doctorName" class="font-semibold w-32">Doctor Name</label>
+            <input pInputText id="doctorName" formControlName="name"
+              [(ngModel)]="prescriptionForm.value.doctorInfo.name"
+              class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <label for="contact" class="font-semibold w-32">Contact</label>
+            <input pInputText id="contact" formControlName="contact"
+              [(ngModel)]="prescriptionForm.value.doctorInfo.contact"
+              class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+          </div>
+          <div class="flex items-center gap-3 mb-3">
+            <label for="specialization" class="font-semibold w-32">Specialization</label>
+            <input pInputText id="specialization" formControlName="specialization"
+              [(ngModel)]="prescriptionForm.value.doctorInfo.specialization"
+              class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+          </div>
+        </div>
+
+        <div formArrayName="medications" class="mb-5">
+          <div *ngFor="let medication of medications.controls; let i = index" [formGroupName]="i" class="mb-3">
+            <div class="flex items-center gap-3 mb-3">
+              <label for="drugName" class="font-semibold w-32">Drug Name</label>
+              <input pInputText id="drugName" formControlName="drugName" [(ngModel)]="medication.value.drugName"
+                class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-3 mb-3">
+              <label for="dosage" class="font-semibold w-32">Dosage</label>
+              <input pInputText id="dosage" formControlName="dosage" [(ngModel)]="medication.value.dosage"
+                class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-3 mb-3">
+              <label for="form" class="font-semibold w-32">Form</label>
+              <input pInputText id="form" formControlName="form" [(ngModel)]="medication.value.form"
+                class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-3 mb-3">
+              <label for="quantity" class="font-semibold w-32">Quantity</label>
+              <input pInputText id="quantity" formControlName="quantity" [(ngModel)]="medication.value.quantity"
+                type="number" class="flex-auto border border-gray-300 rounded-md p-2" autocomplete="off" />
+            </div>
+            <div class="flex items-center gap-3 mb-3">
+              <label for="instructions" class="font-semibold w-32">Instructions</label>
+              <input pInputText id="instructions" formControlName="instructions"
+                [(ngModel)]="medication.value.instructions" class="flex-auto border border-gray-300 rounded-md p-2"
+                autocomplete="off" />
+            </div>
+            <button type="button" pButton label="Remove Medication" (click)="removeMedication(i)"></button>
+          </div>
+        </div>
+
+        <button type="button" pButton label="Add Medication" (click)="addMedication()"></button>
+
+        <div class="flex items-center gap-3 mb-3">
+          <label for="additionalNotes" class="flex-auto border border-gray-300 rounded-md p-2">Additional Notes</label>
+          <textarea id="additionalNotes" formControlName="additionalNotes"
+            [(ngModel)]="prescriptionForm.value.additionalNotes" class="flex-auto" rows="3"></textarea>
+        </div>
+
+        <div class="flex justify-end gap-2">
+          <p-button class="bg-red-500 text-white p-3 rounded-md" label="Cancel" severity="secondary"
+            (click)="closeModal()"></p-button>
+          <p-button class="bg-green-500 text-white p-3 rounded-md" label="Save" type="submit"></p-button>
+        </div>
+      </form>
+    </p-dialog>
+
+    <!-- Report Modal -->
+    <p-dialog header="Report Doctor" [(visible)]="visibleReportModal" [style]="{ width: '25rem' }">
+      <span class="p-text-secondary block mb-5">Report inappropriate behavior or misconduct.</span>
+      <div class="flex items-center gap-3 mb-3">
+        <label for="reason" class="font-semibold w-32">Reason</label>
+        <select pInputText id="reason" class="flex-auto" [(ngModel)]="selectedReason">
+          <option value="" disabled selected>Select a reason</option>
+          <option value="Inappropriate behavior">Inappropriate behavior</option>
+          <option value="Unprofessional conduct">Unprofessional conduct</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="flex items-center gap-3 mb-5">
+        <label for="comments" class="font-semibold w-32">Additional Comments</label>
+        <textarea pInputTextarea id="comments" class="flex-auto" [(ngModel)]="additionalComments" rows="4"></textarea>
+      </div>
+      <div class="flex justify-end gap-2">
+        <p-button class="bg-red-900 text-white p-3 rounded-md" label="Cancel" icon="pi pi-times"
+          styleClass="p-button-secondary" (click)="visibleReportModal = false"></p-button>
+        <p-button class="bg-green-900 text-white p-3 rounded-md" label="Submit Report" icon="pi pi-check"
+          (click)="submitReport()" styleClass="p-button-danger"></p-button>
+      </div>
+    </p-dialog>
+  </div>
+</div>

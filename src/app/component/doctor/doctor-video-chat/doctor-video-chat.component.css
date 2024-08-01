@@ -1,0 +1,68 @@
+.video-container {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    /* Full viewport height */
+}
+
+#remoteVideo {
+    position: absolute;
+    inset: 0;
+    /* Full screen */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensure video covers the area */
+}
+
+#localVideo {
+    position: absolute;
+    bottom: 20px;
+    /* Distance from bottom */
+    right: 20px;
+    /* Distance from right */
+    width: 20vw;
+    /* Width relative to viewport width */
+    height: 20vh;
+    /* Height relative to viewport height */
+    border: 2px solid #ffffff;
+    /* Border for visibility */
+    border-radius: 8px;
+    /* Rounded corners */
+    background: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent background */
+    object-fit: cover;
+    /* Ensure video content fits within the box */
+}
+
+.end-call {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: none;
+    background-color: #FF2849;
+}
+
+.end-call:hover {
+    background-color: #e52441;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+    border: none;
+    background-color: #30C04F;
+  }
+  
+  .button:hover {
+    background-color: #2bac47;
+  }
+
+  

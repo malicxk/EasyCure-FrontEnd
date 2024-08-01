@@ -1,0 +1,92 @@
+<p-toast #toaster position="top-center"></p-toast>
+<p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+<body class="bg-gray-100 font-sans antialiased">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-red-900 text-white flex flex-col">
+      <div class="flex items-center justify-center h-20 border-b border-black">
+        <img src="../../../../assets/images/Online Doctor-rafiki.png" alt="Logo" class="h-12 w-12 mr-3">
+        <span class="text-2xl font-semibold">Doctor</span>
+      </div>
+      <nav class="flex-1 mt-6">
+        <a routerLink="/docProfile" class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Profile
+        </a>
+        <a routerLink="/bookedSlots" class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Consultation Bookings
+        </a>
+        <a routerLink="/consultationSlots"
+          class="block py-3.5 px-6 bg-white text-black hover:bg-white hover:text-black transition duration-200">
+          Doctor Slots
+        </a>
+        <a routerLink="/docCancelledBookings"
+          class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Cancelled Bookings
+        </a>
+        <a href="#" class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Settings
+        </a>
+      </nav>
+    </div>
+
+    <!-- Updated Consultation Slots List -->
+
+    <!-- Updated Consultation Slots List with PrimeNG Table -->
+
+    <div class="container mx-auto p-6 bg-white rounded-lg shadow-md mb-20">
+      <h2 class="text-2xl font-bold mb-6 text-center">Consultation Slots</h2>
+      <div class="text-right mb-4">
+        <!-- Add Slot button -->
+        <button class="fancy-button" [routerLink]="['/addConsultSlot']">
+          <span class="top-key"></span>
+          <span class="text">Add Slot</span>
+          <span class="bottom-key-1"></span>
+          <span class="bottom-key-2"></span>
+        </button>
+      </div>
+      <p-table [value]="consultationSlots" *ngIf="consultationSlots.length > 0" class="p-datatable-gridlines"
+        [paginator]="true" [rows]="5">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Consultation Method</th>
+            <th>Availability Status</th>
+            <th>Change Status</th>
+            <th>Slot Type</th>
+            <th>Delete slot</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-slot>
+          <tr>
+            <td>{{ slot.date |date }}</td>
+            <td>{{ slot.startTime }}</td>
+            <td>{{ slot.consultationMethod }}</td>
+            <td>{{ slot.isAvailable ? 'Available' : 'Not Available' }}</td>
+            <td>
+              <button pButton type="button" label="Available" icon="pi pi-check"
+                class="p-button p-button-success rounded-md shadow-md mx-1 my-1 px-4 py-2 text-green-800 font-bold"
+                [disabled]="slot.isAvailable || slot.statusUpdating" (click)="updateSlotStatus(slot, true)">
+              </button>
+              <button pButton type="button" label="Not Available" icon="pi pi-times"
+                class="p-button p-button-danger rounded-md shadow-md mx-1 my-1 px-4 py-2 text-red-800 font-bold"
+                [disabled]="!slot.isAvailable || slot.statusUpdating " (click)="updateSlotStatus(slot, false)">
+              </button>
+            </td>
+            <td>{{slot.isDefault?'Default':'Normal'}}</td>
+            <td>
+              <button pButton type="button" label="Delete" icon="pi pi-trash"
+                class="p-button p-button-danger rounded-md shadow-md mx-1 my-1 px-4 py-2 text-red-800 font-bold"
+                (click)="deleteSlot(slot._id)">
+              </button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="paginatorCenter" let-state>
+        </ng-template>
+      </p-table>
+      <div *ngIf="consultationSlots.length === 0" class="text-center text-gray-600">
+        No consultation slots available.
+      </div>
+    </div>

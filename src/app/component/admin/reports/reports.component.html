@@ -1,0 +1,99 @@
+<body class="bg-gray-100 font-sans antialiased">
+    <p-toast #toast position="top-center"></p-toast>
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-red-900 text-white flex flex-col">
+            <div class="flex items-center justify-center h-20 border-b border-black">
+                <img src="../../../../assets/images/Admin-bro.png" alt="Logo" class="h-12 w-12 mr-3">
+                <span class="text-2xl font-semibold">Admin</span>
+            </div>
+            <nav class="flex-1 mt-6">
+                <a routerLink="/adminHome"
+                    class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+                    Dashboard
+                </a>
+                <a routerLink='/usersList'
+                    class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+                    Users
+                </a>
+                <a routerLink="/doctorsList"
+                    class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+                    Doctors
+                </a>
+                <a routerLink="/specialtiesList"
+                    class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+                    Specialties
+                </a>
+                <a href="#"
+                    class="block py-3.5 px-6  bg-white text-black hover:bg-white hover:text-black transition duration-200">
+                    Reports
+                </a>
+            </nav>
+        </div>
+
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl font-bold mb-4">Reports</h1>
+            <p *ngIf="error" class="error">{{ error }}</p>
+
+            <p-table [value]="reports" [paginator]="true" [rows]="6" class="shadow-lg rounded-lg overflow-hidden">
+                <ng-template pTemplate="caption">
+                    <p *ngIf="reports.length === 0 && !error" class="text-center py-4">No reports found.</p>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="px-4 py-2">Reporter User</th>
+                        <th class="px-4 py-2">Reported User</th>
+                        <th class="px-4 py-2">Reason</th>
+                        <th class="px-4 py-2">Comments</th>
+                        <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Reported At</th>
+                        <th class="px-4 py-2">Actions</th> <!-- New column for actions -->
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-report>
+                    <tr>
+                        <td class="border px-4 py-2">
+                            {{ report.reporterName }}({{ report.reporterRole }})
+                            <div class="text-green-600 text-sm">Email: {{ report.reporterEmail }}</div>
+                        </td>
+                        <td class="border px-4 py-2">
+                            {{ report.reportedUserName }}({{ report.reportedUserRole }})
+                            <div class="text-blue-600 text-sm">Email: {{ report.reportedUserEmail }}</div>
+                        </td>
+                        <td class="border px-4 py-2">{{ report.reason }}</td>
+                        <td class="border px-4 py-2">
+                            <button type="button" class="text-blue-500 underline"
+                                (click)="openCommentsModal(report.comments)">
+                                View Comments
+                            </button>
+                        </td>
+                        <td class="border px-4 py-2">
+                            <span [ngClass]="report.status ? 'text-green-600' : 'text-yellow-600'">
+                                {{ report.status ? 'Action Took' : 'Pending' }}
+                            </span>
+                        </td>
+                        <td class="border px-4 py-2">{{ report.createdAt | date: 'short' }}</td>
+                        <td class="border px-4 py-2">
+                            <button (click)="toggleStatus(report._id)" class="py-2 px-4 rounded-lg shadow-md focus:outline-none 
+                                       {{ report.status ? 'bg-red-500 text-white' : 'bg-green-500 text-white' }}">
+                                {{ report.status ? 'Mark as Pending' : 'Mark as Action Took' }}
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+
+            <!-- Modal for Comments -->
+            <p-dialog header="Comments" [modal]="true" [(visible)]="visibleCommentsModal" [style]="{ width: '50rem' }"
+                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+                <p>{{ selectedComments }}</p>
+            </p-dialog>
+        </div>
+
+
+
+
+
+    </div>
+</body>

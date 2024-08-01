@@ -1,0 +1,17 @@
+::ng-deep .p-paginator {
+    background-color: #f3f4f6; /*  background color */
+    border-radius: 0.25rem; /*  border radius */
+    padding: 0.5rem; /*  padding */
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-pages li {
+    background-color: #e5e7eb; /*  background color for page links */
+    border-radius: 0.25rem; /*  border radius */
+    margin: 0.25rem; /*  margin */
+  }
+  
+  ::ng-deep .p-paginator .p-paginator-page.p-highlight {
+    background-color: #2563eb; /*  background color for active page */
+    color: #fff; /*  text color for active page */
+  }
+  

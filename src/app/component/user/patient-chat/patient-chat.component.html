@@ -1,0 +1,117 @@
+<div class="flex flex-col h-screen">
+  <!-- Header Section -->
+  <div class="flex items-center justify-between bg-white p-4 text-black shadow-lg border-black">
+    <h1 class="text-2xl font-semibold">Chat with Doctor {{ doctor.doctorname }}</h1>
+    <div class="flex gap-2 items-center">
+      <button class="px-4 py-2 bg-teal-600 rounded-lg text-white hover:bg-teal-700"
+        (click)="startVideoCall(doctor.doctorname)">
+        Video Call
+      </button>
+      <button class="px-4 py-2 bg-red-600 rounded-lg text-white hover:bg-red-700" routerLink="/myBookings">
+        Leave
+      </button>
+    </div>
+  </div>
+
+  <!-- Chat Messages Section -->
+  <div class="flex flex-col flex-grow p-4 overflow-y-auto bg-red-50 border-t border-gray-300">
+    <div *ngFor="let message of chatMessages" class="mb-2 flex"
+      [ngClass]="{'justify-end': message.senderId === senderId, 'justify-start': message.senderId !== senderId}">
+      <div class="inline-block p-3 rounded-lg max-w-xs border"
+        [ngClass]="message.senderId === senderId ? 'bg-teal-600 text-white border-teal-700' : 'bg-gray-800 text-white border-gray-700'">
+        <p class="text-sm">{{ message.message }}</p>
+        <span class="block text-xs mt-1">{{ message.timestamp | date: 'shortTime' }}</span>
+        <div *ngIf="message.audioUrl" class="mt-2">
+          <audio [src]="message.audioUrl" controls class="w-full border rounded-md"></audio>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Message Section -->
+  <div class="flex flex-col p-4 border-t border-gray-300 bg-white">
+    <div class="flex items-center mb-4">
+      <input [(ngModel)]="newMessage" type="text" placeholder="Type your message..."
+        class="flex-grow p-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-teal-500 border-gray-900">
+      <button (click)="sendMessage()"
+        class="px-4 py-2 bg-teal-600 text-white rounded-r-lg hover:bg-teal-700">Send</button>
+    </div>
+
+    <!-- Prescription List Section -->
+    <div class="space-y-2">
+      <ul>
+        <li *ngFor="let prescription of prescription" class="flex justify-between items-center">
+          <button (click)="downloadPrescription(prescription._id)"
+            class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+            Download Prescription
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Fixed Buttons -->
+    <div class="fixed bottom-0 right-0 p-4 space-x-2">
+      <button class="px-4 py-2 bg-yellow-600 rounded-lg text-white hover:bg-yellow-700" (click)="openFeedbackModal()">
+        Provide Feedback
+      </button>
+      <button class="px-4 py-2 bg-teal-600 rounded-lg text-white hover:bg-teal-700" (click)="openReportModal()">
+        Report Doctor
+      </button>
+    </div>
+  </div>
+
+  <!-- Feedback Modal -->
+  <p-dialog header="Provide Feedback" [(visible)]="visible" [modal]="true" [closable]="false" class="p-6">
+    <form [formGroup]="feedbackForm" (ngSubmit)="saveFeedback()" class="space-y-4">
+      <div class="flex flex-col">
+        <label for="comment" class="text-sm font-semibold">Comment</label>
+        <textarea id="comment" formControlName="comment" class="p-2 border rounded-md resize-y w-full h-24"
+          placeholder="Enter your feedback comment"></textarea>
+        <div
+          *ngIf="feedbackForm.controls['comment'].invalid && (feedbackForm.controls['comment'].dirty || feedbackForm.controls['comment'].touched)">
+          <small class="text-red-600">Comment is required.</small>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <label for="rating" class="text-sm font-semibold">Rating</label>
+        <input id="rating" formControlName="rating" type="number" class="p-2 border rounded-md w-full" min="1" max="5"
+          placeholder="Enter your rating (1-5)" />
+        <div
+          *ngIf="feedbackForm.controls['rating'].invalid && (feedbackForm.controls['rating'].dirty || feedbackForm.controls['rating'].touched)">
+          <small class="text-red-600">Rating must be between 1 and 5.</small>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-4">
+        <button type="submit"
+          class="p-3 bg-teal-600 text-white rounded-md hover:bg-teal-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          [disabled]="feedbackForm.invalid">Save Feedback</button>
+        <button type="button" class="p-3 bg-red-600 text-white rounded-md hover:bg-red-700"
+          (click)="visible = false">Cancel</button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <!-- Report Modal -->
+  <p-dialog header="Report Doctor" [(visible)]="visibleReportModal" [style]="{ width: '25rem' }">
+    <span class="text-gray-700 block mb-5">Report inappropriate behavior or misconduct.</span>
+    <div class="flex items-center gap-3 mb-3">
+      <label for="reason" class="font-semibold w-6rem">Reason</label>
+      <select pInputText id="reason" class="flex-auto" [(ngModel)]="selectedReason">
+        <option value="" disabled selected>Select a reason</option>
+        <option value="Inappropriate behavior">Inappropriate behavior</option>
+        <option value="Unprofessional conduct">Unprofessional conduct</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="flex items-center gap-3 mb-5">
+      <label for="comments" class="font-semibold w-6rem">Additional Comments</label>
+      <textarea pInputTextarea id="comments" class="flex-auto" [(ngModel)]="additionalComments" rows="4"></textarea>
+    </div>
+    <div class="flex justify-end gap-2">
+      <p-button class="bg-red-700 text-white p-3 rounded-md" label="Cancel" icon="pi pi-times"
+        styleClass="p-button-secondary" (click)="visibleReportModal = false"></p-button>
+      <p-button class="bg-teal-700 text-white p-3 rounded-md" label="Submit Report" icon="pi pi-check"
+        (click)="submitReport()" styleClass="p-button-danger"></p-button>
+    </div>
+  </p-dialog>
+</div>

@@ -1,0 +1,4 @@
+<router-outlet></router-outlet>
+<div *ngIf="(layoutService.showFooter$ | async)">
+    <app-footer></app-footer>
+</div>

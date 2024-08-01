@@ -1,0 +1,134 @@
+<app-header-user></app-header-user>
+<p-toast #toast position="top-center"></p-toast>
+<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+  <!-- Wallet balance display -->
+  <div class="text-left mb-4">
+    <span class="text-lg font-semibold">Wallet Balance: </span>
+    <span class="text-lg font-semibold text-green-600">{{ user.walletMoney | currency:'INR' }}</span>
+    <div class="mt-2">
+      <button class="text-black bg-yellow-200 p-3" pButton label="Show Wallet History"
+        (click)="showWalletHistory()"></button>
+    </div>
+  </div>
+  <div class="text-right mb-4">
+    <span><button routerLink="/prescriptions" class="text-lg font-semibold bg-amber-100 rounded-md text-black p-3">My
+        Prescriptions </button></span>
+  </div>
+  <!-- profile photo upload and preview -->
+  <div class="flex flex-col items-center">
+    <div class="relative">
+      <img id="profileImage" [src]="user.profilePhoto" alt="Profile Photo"
+        class="w-32 h-32 rounded-full object-cover cursor-pointer border border-black"
+        (click)="profileImageInput.click()">
+      <input type="file" #profileImageInput accept="image/*" class="hidden" (change)="onProfileImageSelect($event)">
+    </div>
+    <button *ngIf="profileImageFile" pButton type="button" label="Upload" icon="pi pi-upload"
+      class="bg-black text-white py-2 px-4 rounded-lg hover:bg-green-500 focus:outline-none mt-4"
+      (click)="onProfileImageUpload()">
+    </button>
+    <h2 class="mt-4 text-2xl font-semibold">{{ user.username }}</h2>
+    <p class="text-gray-600">{{ user.email }}</p>
+  </div>
+
+  <div class="mt-6 flex justify-between items-center">
+    <div>
+      <label class="block text-gray-700">Date of Birth</label>
+      <h2 class="mt-4 text-2xl font-semibold">{{ user.dateOfbirth | date }}</h2>
+    </div>
+
+    <div class="uiverse flex">
+      <button class="view-bookings-button" routerLink="/myBookings">
+        My Bookings
+      </button>
+      <span class="tooltip ml-1">Your appointments</span>
+    </div>
+
+    <button class="edit-button" (click)="editProfile()" (click)="visible = true">
+      <svg class="edit-svgIcon" viewBox="0 0 512 512">
+        <path
+          d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z">
+        </path>
+      </svg>
+    </button>
+  </div>
+  <!-- edit profile modal -->
+  <p-dialog header="Edit Profile" [modal]="true" [(visible)]="visible" [style]="{ width: '25rem' }">
+    <span class="text-gray-600 block mb-5">Update your information.</span>
+    <div class="flex items-center gap-3 mb-3">
+      <label for="username" class="font-semibold w-24">Username</label>
+      <input pInputText id="username" class="flex-1 border rounded py-2 px-3" autocomplete="off"
+        [(ngModel)]="user.username" />
+    </div>
+    <div class="flex items-center gap-3 mb-5">
+      <label for="dateOfBirth" class="font-semibold w-24">Date of Birth</label>
+      <input id="dateOfBirth" class="flex-1 border rounded py-2 px-3" [value]="user.dateOfbirth | date:'yy-MM-dd'"
+        placeholder="YY-MM-DD" />
+    </div>
+
+    <div class="flex justify-end gap-2">
+      <button type="button" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 focus:outline-none"
+        (click)="visible = false">Cancel</button>
+      <button type="button" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none"
+        (click)="saveProfile()">Save</button>
+    </div>
+  </p-dialog>
+
+  <!-- uploading medical certificate -->
+  <div class="relative flex justify-center items-center h-64 border border-dashed border-black rounded-md">
+    <img *ngIf="user.medCertificate" [src]="user.medCertificate" alt="Medical Certificate"
+      class="w-full h-64 object-cover rounded-md cursor-pointer" (click)="certificateInput.click()">
+    <button *ngIf="!user.medCertificate" class="continue-application" (click)="openFileInput()">
+      <div>
+        <div class="pencil"></div>
+        <div class="folder">
+          <div class="top">
+            <svg viewBox="0 0 24 27">
+              <path
+                d="M1,0 L23,0 C23.5522847,-1.01453063e-16 24,0.44771525 24,1 L24,8.17157288 C24,8.70200585 23.7892863,9.21071368 23.4142136,9.58578644 L20.5857864,12.4142136 C20.2107137,12.7892863 20,13.2979941 20,13.8284271 L20,26 C20,26.5522847 19.5522847,27 19,27 L1,27 C0.44771525,27 6.76353751e-17,26.5522847 0,26 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 Z">
+              </path>
+            </svg>
+          </div>
+          <div class="paper"></div>
+        </div>
+      </div>
+      Add Medical Record
+    </button>
+    <input type="file" #certificateInput accept="image/*" class="hidden" (change)="onMedicalCertificateSelect($event)">
+    <div *ngIf="user.medCertificate && showUploadButton"
+      class="absolute bottom-0 w-full flex justify-center items-center">
+      <button class="cssbuttons-io-button p-2 bg-blue-500 text-white rounded-md mb-2"
+        (click)="onMedicalCertificateUpload()">
+        <svg viewBox="0 0 640 512" fill="white" height="1em" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M144 480C64.5 480 0 415.5 0 336c0-62.8 40.2-116.2 96.2-135.9c-.1-2.7-.2-5.4-.2-8.1c0-88.4 71.6-160 160-160c59.3 0 111 32.2 138.7 80.2C409.9 102 428.3 96 448 96c53 0 96 43 96 96c0 12.2-2.3 23.8-6.4 34.6C596 238.4 640 290.1 640 352c0 70.7-57.3 128-128 128H144zm79-217c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l39-39V392c0 13.3 10.7 24 24 24s24-10.7 24-24V257.9l39 39c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0l-80 80z">
+          </path>
+        </svg>
+        <span>Upload</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- walletHistory Modal -->
+  <p-dialog header="Wallet History" [(visible)]="walletHisModal" [style]="{ width: '30rem' }">
+    <div class="p-dialog-content">
+      <p-table [value]="walletHistory" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Description</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td>{{ rowData.date | date:'short' }}</td>
+            <td>{{ rowData.amount | currency :'INR' }}</td>
+            <td>{{ rowData.description }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="p-dialog-footer">
+      <p-button label="Close" (onClick)="walletHisModal= false" />
+    </div>
+  </p-dialog>

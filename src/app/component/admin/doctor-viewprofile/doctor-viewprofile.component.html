@@ -1,0 +1,75 @@
+<app-headerlogin-admin></app-headerlogin-admin>
+<p-toast #toast position="top-center"></p-toast>
+<body class="bg-gray-200 min-h-screen flex items-center justify-center">
+  <div class="profile-container mx-auto p-6 bg-white shadow-lg rounded-lg  max-w-full">
+    <div class="profile-header text-center">
+      <div class="relative w-48 h-48 mx-auto mb-4">
+        <img *ngIf="imageUrl" [src]="imageUrl" alt="Profile Photo"
+          class="w-full h-full object-cover rounded-full border-4 border-gray-300">
+      </div>
+      <h1 class="text-3xl font-semibold mt-4">{{ doctor?.doctorname }}</h1>
+      <p class="text-gray-600"><strong>Email:</strong> {{ doctor?.email }}</p>
+    </div>
+    <div class="profile-details mt-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold">Profile Details</h2>
+        <button class="animated-button" (click)="verifyDoctor(doctor,true)" *ngIf="doctor">
+          <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+            </path>
+          </svg>
+          <span class="text">Verify Doctor</span>
+          <span class="circle"></span>
+          <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z">
+            </path>
+          </svg>
+        </button>
+
+      </div>
+      <div class="flex flex-wrap -mx-2">
+        <div class="w-full md:w-1/2 px-2 mb-4">
+          <p class="text-lg"><strong>Age:</strong> {{ doctor?.dateOfbirth }}</p>
+        </div>
+        <div class="w-full md:w-1/2 px-2 mb-4">
+          <p class="text-lg"><strong>Specialty:</strong> {{ doctor?.specialty }}</p>
+        </div>
+        <div class="w-full md:w-1/2 px-2 mb-4">
+          <p class="text-lg"><strong>Description:</strong> {{ doctor?.description }}</p>
+          <p class="text-lg"><strong>Years of Experience:</strong> {{ doctor?.workExperience}}</p>
+        </div>
+        <div class="w-full md:w-1/2 px-2 mb-4">
+          <p class="text-lg"><strong>Authentication Status:</strong>
+            <span [ngClass]="doctor?.isBlocked ? 'text-red-500' : 'text-green-500'">
+              {{ doctor?.isBlocked ? 'Blocked' : 'Active' }}
+            </span>
+          </p>
+        </div>
+        <div class="w-full md:w-1/2 px-2 mb-4">
+          <p class="text-lg">
+            <strong>Verification Status:</strong>
+            <span [ngClass]="doctor?.isVerified ? 'text-green-500' : 'text-red-500'">
+              {{ doctor?.isVerified ? 'Verified' : 'Not Verified' }}
+            </span>
+          </p>
+        </div>
+        <!-- Button to view certificate -->
+        <button class="viewCertificateButton" (click)="openCertificateModal()">
+          <span>View Certificate</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- Certificate image display section -->
+<!-- PrimeNG Dialog for displaying certificates -->
+<p-dialog header="Doctor Certificates" [(visible)]="visible" [modal]="true" [style]="{ width: '70vw' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" (onHide)="closeCertificateModal()">
+  <div class="certificates-container">
+    <div *ngFor="let url of certificateUrls" class="certificate-item">
+      <img [src]="url" alt="Certificate" class="w-full h-auto rounded-lg shadow-md" />
+    </div>
+  </div>
+</p-dialog>

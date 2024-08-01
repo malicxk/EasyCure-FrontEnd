@@ -1,0 +1,59 @@
+<app-header-doctor></app-header-doctor>
+<p-toast #toaster position="top-center"></p-toast>
+<div class="min-h-screen flex">
+    <!-- Left Side (Image) -->
+    <div class="w-1/2 hidden md:flex items-center justify-center bg-white">
+        <img src="../../../../assets/images/Online Doctor-rafiki.png" alt="Illustration" class="w-3/4">
+    </div>
+    <!-- Right Side (Form) -->
+    <div class="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
+        <div class="w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-6 text-center">Enter Your OTP</h2>
+
+
+            <div class="text-center mb-4">
+                <p class="text-lg text-gray-600">Time Remaining: {{ timerValue }}</p>
+            </div>
+
+            
+            <form [formGroup]="otpForm" class="mt-8 space-y-6" (submit)="submitOTP()">
+                <div class="rounded-md shadow-sm -space-y-px">
+                    <div class="flex justify-center space-x-4">
+                        <input type="text" maxlength="1" formControlName="digit1"
+                            class="w-14 h-14 text-4xl text-center border border-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text" maxlength="1" formControlName="digit2"
+                            class="w-14 h-14 text-4xl text-center border border-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text" maxlength="1" formControlName="digit3"
+                            class="w-14 h-14 text-4xl text-center border border-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text" maxlength="1" formControlName="digit4"
+                            class="w-14 h-14 text-4xl text-center border border-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text" maxlength="1" formControlName="digit5"
+                            class="w-14 h-14 text-4xl text-center border border-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <input type="text" maxlength="1" formControlName="digit6"
+                            class="w-14 h-14 text-4xl text-center border border-black rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+
+                <!-- Error Message -->
+                <div *ngIf="errorMessage" class="text-red-500 text-base mt-2">{{ errorMessage }}</div>
+
+                <!-- Success Message -->
+                <div *ngIf="successMessage" class="text-green-500 text-base mt-2">{{ successMessage }}</div>
+
+
+                <div class="text-center">
+                    <p class="text-sm text-gray-600">Didn't receive the code? <button
+                            class="font-medium text-indigo-600 hover:text-indigo-500"
+                            (click)="resendOTP()">Resend</button></p>
+                </div>
+
+                <div>
+                    <button type="submit"
+                        class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Verify
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

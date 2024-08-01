@@ -1,0 +1,56 @@
+<app-header-doctor></app-header-doctor>
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-10">
+        Patient Details
+    </h2>
+
+    <!-- Patient Profile and Info Card -->
+    <div class="flex flex-col items-center mb-10 bg-white shadow-md rounded-lg p-6 border border-gray-300">
+        <!-- Patient Profile -->
+        <div class="relative w-32 h-32 mb-6">
+            <img [src]="user.profilePhoto || 'https://via.placeholder.com/150'" alt="Patient Photo"
+                class="w-full h-full object-cover rounded-full border-4 border-gray-300">
+        </div>
+
+        <!-- Patient Info -->
+        <div>
+            <h3 class="text-2xl font-semibold text-gray-800 mb-4">Patient Information</h3>
+            <p class="text-lg text-gray-600"><strong>Name:</strong> {{ user.username }}</p>
+            <p class="text-lg text-gray-600"><strong>Date of Birth:</strong> {{ user.dateOfbirth | date: 'longDate' }}
+            </p>
+            <p class="text-lg text-gray-600"><strong>Email:</strong> {{ user.email }}</p>
+            <!-- Consultations Count -->
+            <div class="text-center text-xl font-bold text-red-700 mb-6 mt-2">
+                <p *ngIf="consultationCount > 0">Times Visited: {{ consultationCount }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prescription Table and No Prescriptions Message -->
+    <div *ngIf="prescription && prescription.length; else noPrescriptions">
+        <p-table [value]="prescription" [paginator]="true" [rows]="2">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Visited Date</th>
+                    <th>Additional Notes</th>
+                    <th>Prescription</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-prescription>
+                <tr>
+                    <td>{{ prescription.createdAt | date: 'medium' }}</td>
+                    <td>{{ prescription.prescriptionData.additionalNotes }}</td>
+                    <td>
+                        <button class="text-blue-600 hover:underline"
+                            (click)="downloadPrescription(prescription._id)">Download Prescription</button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <!-- No Prescriptions Available -->
+    <ng-template #noPrescriptions>
+        <p class="text-center text-4xl text-gray-600">!!No prescriptions and past visted history available for this
+            patient.</p>
+    </ng-template>

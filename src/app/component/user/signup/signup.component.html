@@ -1,0 +1,110 @@
+<app-header-user></app-header-user>
+<p-toast #toaster position="top-center"></p-toast>
+<div class="min-h-screen flex flex-col md:flex-row items-start justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full md:w-1/2 mx-auto">
+    <div>
+      <h2 class="mt-6 text-center md:text-left text-3xl font-extrabold text-gray-900">
+        Sign up for an account
+      </h2>
+    </div>
+    <form [formGroup]="signUpForm" class="mt-8 space-y-6" (ngSubmit)="onSubmit()" novalidate>
+      <input type="hidden" name="remember" value="true">
+      <div class="rounded-md shadow-sm -space-y-px">
+        <!-- Username field -->
+        <div class="form-group">
+          <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+          <input type="text" id="username" formControlName="username" required
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            [ngClass]="{ 'border-red-500': signUpForm.get('username')?.touched && signUpForm.get('username')?.invalid }">
+          <div *ngIf="signUpForm.get('username')?.touched && signUpForm.get('username')?.invalid"
+            class="text-red-500 text-base mt-1">
+            <small *ngIf="signUpForm.get('username')?.errors?.['required']">Username is required.</small>
+            <small *ngIf="signUpForm.get('username')?.errors?.['minlength']">Username must be at least 2 characters
+              long.</small>
+            <small *ngIf="signUpForm.get('username')?.errors?.['maxlength']">Username cannot be more than 20 characters
+              long.</small>
+          </div>
+        </div>
+
+        <!-- Email field -->
+        <div class="form-group">
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <input type="email" id="email" formControlName="email" required
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            [ngClass]="{ 'border-red-500': signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid }">
+          <div *ngIf="signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid"
+            class="text-red-500 text-base mt-1">
+            <small *ngIf="signUpForm.get('email')?.errors?.['required']">Email is required.</small>
+            <small *ngIf="signUpForm.get('email')?.errors?.['email']">Invalid email address.</small>
+          </div>
+        </div>
+
+        <!-- Date of Birth field -->
+        <div class="form-group">
+          <label for="dateOfbirth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+          <input type="date" id="dateOfbirth" formControlName="dateOfbirth" required
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            [ngClass]="{ 'border-red-500': signUpForm.get('dateOfbirth')?.touched && signUpForm.get('dateOfbirth')?.invalid }">
+          <div *ngIf="signUpForm.get('dateOfbirth')?.touched && signUpForm.get('dateOfbirth')?.invalid"
+            class="text-red-500 text-base mt-1">
+            <small *ngIf="signUpForm.get('dateOfbirth')?.errors?.['required']">Date of birth is required.</small>
+          </div>
+        </div>
+
+        <!-- Password field -->
+        <div class="form-group">
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" id="password" formControlName="password" required
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            [ngClass]="{ 'border-red-500': signUpForm.get('password')?.touched && signUpForm.get('password')?.invalid }">
+          <div *ngIf="signUpForm.get('password')?.touched && signUpForm.get('password')?.invalid"
+            class="text-red-500 text-base mt-1">
+            <small *ngIf="signUpForm.get('password')?.errors?.['required']">Password is required.</small>
+            <small *ngIf="signUpForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters
+              long.</small>
+            <small *ngIf="signUpForm.get('password')?.errors?.['pattern']">Password must contain at least one uppercase
+              letter, one lowercase letter, and one number.</small>
+          </div>
+        </div>
+
+        <!-- Confirm Password field -->
+        <div class="form-group">
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" required
+            class="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            [ngClass]="{ 'border-red-500': signUpForm.get('confirmPassword')?.touched && signUpForm.get('confirmPassword')?.invalid }">
+          <div *ngIf="signUpForm.get('confirmPassword')?.touched && signUpForm.get('confirmPassword')?.invalid"
+            class="text-red-500 text-base mt-1">
+            <small *ngIf="signUpForm.get('confirmPassword')?.errors?.['required']">Confirm Password is required.</small>
+          </div>
+          <div *ngIf="signUpForm.hasError('passwordMismatch') && signUpForm.get('confirmPassword')?.touched"
+            class="text-red-500 text-base mt-1">
+            <small>Passwords must match.</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center">
+          <input id="remember_me" name="remember_me" type="checkbox"
+            class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+          <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+            Remember me
+          </label>
+        </div>
+
+        <div class="text-sm">
+          <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+            Already have an account? Sign in
+          </a>
+        </div>
+      </div>
+      <div>
+        <button type="submit"
+          class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Sign Up
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

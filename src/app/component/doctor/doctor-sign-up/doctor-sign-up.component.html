@@ -1,0 +1,133 @@
+<app-header-doctor></app-header-doctor>
+<p-toast #toaster position="top-center"></p-toast>
+<div class="min-h-screen flex">
+  <!-- Left Side (Image) -->
+  <div class="w-1/2 hidden md:flex items-center justify-center bg-white">
+    <img src="../../../../assets/images/Doctors-bro.png" alt="Illustration" class="w-3/4">
+  </div>
+  <!-- Right Side (Form) -->
+  <div class="w-full md:w-1/2 flex items-center justify-center p-8 bg-white">
+    <div class="w-full max-w-md">
+      <h2 class="text-2xl font-bold mb-6 text-center">Doctor Sign Up</h2>
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+        <div class="space-y-4">
+          <div>
+            <label for="doctorname" class="sr-only">Name</label>
+            <input pInputText formControlName="doctorname" type="text" id="doctorname" placeholder="Enter Name" required
+              class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+            <div
+              *ngIf="signUpForm.get('doctorname')?.invalid && (signUpForm.get('doctorname')?.dirty || signUpForm.get('doctorname')?.touched)"
+              class="text-red-600">
+              Name is required.
+            </div>
+          </div>
+          <div>
+            <label for="email" class="sr-only">Email</label>
+            <input pInputText formControlName="email" type="email" id="email" placeholder="Enter Email" required
+              class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+            <div
+              *ngIf="signUpForm.get('email')?.invalid && (signUpForm.get('email')?.dirty || signUpForm.get('email')?.touched)"
+              class="text-red-600">
+              Enter a valid email.
+            </div>
+          </div>
+          <div>
+            <label for="password" class="sr-only">Password</label>
+            <input pInputText formControlName="password" type="password" id="password" placeholder="Enter Password"
+              required
+              class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+            <div
+              *ngIf="signUpForm.get('password')?.invalid && (signUpForm.get('password')?.dirty || signUpForm.get('password')?.touched)"
+              class="text-red-600">
+              Password is required.
+            </div>
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="sr-only">Confirm Password</label>
+            <input pInputText formControlName="confirmPassword" type="password" id="confirmPassword"
+              placeholder="Confirm Password" required
+              class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+            <div
+              *ngIf="signUpForm.get('confirmPassword')?.invalid && (signUpForm.get('confirmPassword')?.dirty || signUpForm.get('confirmPassword')?.touched)"
+              class="text-red-600">
+              Confirm Password is required
+            </div>
+            <div
+              *ngIf="signUpForm.hasError('passwordMismatch') && (signUpForm.get('confirmPassword')?.dirty || signUpForm.get('confirmPassword')?.touched)"
+              class="text-red-600">
+              Passwords do not match.
+            </div>
+          </div>
+
+          <!-- Date of Birth field -->
+          <div class="form-group">
+            <label for="dateOfbirth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+            <input type="date" id="dateOfbirth" formControlName="dateOfbirth" required
+              class="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              [ngClass]="{ 'border-red-500': signUpForm.get('dateOfbirth')?.touched && signUpForm.get('dateOfbirth')?.invalid }">
+            <div *ngIf="signUpForm.get('dateOfbirth')?.touched && signUpForm.get('dateOfbirth')?.invalid"
+              class="text-red-500 text-base mt-1">
+              <small *ngIf="signUpForm.get('dateOfbirth')?.errors?.['required']">Date of birth is required.</small>
+            </div>
+          </div>
+
+          <div>
+            <label for="specialty" class="sr-only">Specialty</label>
+            <select pDropdown formControlName="specialty" id="specialty" required
+              class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm">
+              <option value="" disabled selected>Select Specialty</option>
+              <option *ngFor="let specialty of specialties" [value]="specialty.specialtyName">{{ specialty.specialtyName
+                }}</option>
+            </select>
+            <div
+              *ngIf="signUpForm.get('specialty')?.invalid && (signUpForm.get('specialty')?.dirty || signUpForm.get('specialty')?.touched)"
+              class="text-red-600">
+              Specialty is required.
+            </div>
+          </div>
+          <div>
+            <label for="description" class="sr-only">Description</label>
+            <textarea pInputTextarea formControlName="description" id="description" rows="4"
+              placeholder="Enter your Description" required
+              class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"></textarea>
+            <div
+              *ngIf="signUpForm.get('description')?.invalid && (signUpForm.get('description')?.dirty || signUpForm.get('description')?.touched)"
+              class="text-red-600">
+              Description is required.
+            </div>
+          </div>
+        </div>
+
+        <!-- work experience -->
+
+        <div>
+          <label for="workExperience" class="sr-only">Work Experience (years)</label>
+          <input type="number" id="workExperience" formControlName="workExperience"
+            placeholder="Enter your work experience in years" required
+            class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" />
+          <div
+            *ngIf="signUpForm.get('workExperience')?.invalid && (signUpForm.get('workExperience')?.dirty || signUpForm.get('workExperience')?.touched)"
+            class="text-red-600">
+            <div *ngIf="signUpForm.get('workExperience')?.errors?.['required']">Work Experience is required.</div>
+            <div *ngIf="signUpForm.get('workExperience')?.errors?.['min']">Work Experience must be a positive number.
+            </div>
+          </div>
+        </div>
+
+
+        <div>
+          <button type="submit"
+            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Sign Up
+          </button>
+        </div>
+
+        <div class="text-center mt-4">
+          <p class="text-sm text-gray-600">Already have an account? <a href="#"
+              class="font-medium text-indigo-600 hover:text-indigo-500" (click)="navigateToLogin($event)">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

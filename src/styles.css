@@ -1,0 +1,22 @@
+/* for ngPrime */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+/* for Toater  */
+@import 'ngx-toastr/toastr';
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+.badge-active {
+    @apply bg-green-500 text-white px-2 py-1 rounded;
+}
+
+.badge-blocked {
+    @apply bg-red-500 text-white px-2 py-1 rounded;
+}

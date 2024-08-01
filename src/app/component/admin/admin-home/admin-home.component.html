@@ -1,0 +1,87 @@
+<app-headerlogin-admin></app-headerlogin-admin>
+
+<body class="bg-gray-100 font-sans antialiased">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-red-900 text-white flex flex-col">
+      <div class="flex items-center justify-center h-20 border-b border-black">
+        <img src="../../../../assets/images/Admin-bro.png" alt="Logo" class="h-12 w-12 mr-3">
+        <span class="text-2xl font-semibold">Admin</span>
+      </div>
+      <nav class="flex-1 mt-6">
+        <a href="#"
+          class="block py-3.5 px-6 bg-white text-black hover:bg-white hover:text-black transition duration-200">
+          Dashboard
+        </a>
+        <a routerLink="/usersList" class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Users
+        </a>
+        <a routerLink="/doctorsList" class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Doctors
+        </a>
+        <a routerLink="/specialtiesList"
+          class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Specialties
+        </a>
+        <a routerLink="/reports" class="block py-3.5 px-6 hover:bg-white hover:text-black transition duration-200">
+          Reports
+        </a>
+      </nav>
+    </div>
+    <!-- Main content -->
+    <div class="flex-1 p-6">
+      <header class="flex items-center justify-between pb-4 border-b">
+        <h1 class="text-3xl font-bold">Dashboard</h1>
+        <div class="flex items-center space-x-4">
+          <a href="#" class="text-gray-600 hover:text-gray-900">About</a>
+          <a href="#" class="text-gray-600 hover:text-gray-900">Contact</a>
+          <div class="flex space-x-2">
+            <button class="p-2 rounded-full hover:bg-gray-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+            <button class="p-2 rounded-full hover:bg-gray-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M10 14H5.236a3.985 3.985 0 00-2.367 7.367M19 20h-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="container mx-auto mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <div class="bg-white shadow-md rounded-lg text-center p-4">
+            <h5 class="text-lg font-semibold">Total Slots Booked</h5>
+            <p class="text-4xl mt-2">{{ totalSlotsBooked }}</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg text-center p-4">
+            <h5 class="text-lg font-semibold">Total Revenue</h5>
+            <p class="text-4xl mt-2">{{ totalRevenue | currency:'INR' }}</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg text-center p-4">
+            <h5 class="text-lg font-semibold">Virtual Bookings</h5>
+            <p class="text-4xl mt-2">{{ virtualBookingsCount }}</p>
+          </div>
+          <div class="bg-white shadow-md rounded-lg text-center p-4">
+            <h5 class="text-lg font-semibold">Clinical Bookings</h5>
+            <p class="text-4xl mt-2">{{ clinicalBookingsCount }}</p>
+          </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <div class="h-96"> 
+            <canvas id="bookingChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </div>
+</body>
