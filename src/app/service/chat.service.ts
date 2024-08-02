@@ -19,7 +19,7 @@ export class ChatService {
   };
 
   constructor(private http: HttpClient) {
-    this.socket = io(environment.apiUrl);
+    this.socket = io('https://mkart.shop/');
   };
 
   connect(): void {
