@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         localStorage.setItem('refreshToken', response.token.refreshToken);// saving refresh token
         //setting userData into the local storage.
         localStorage.setItem('user', JSON.stringify(response.user));
-        this.router.navigate(['/userHome']); // Redirect to dashboard
+        this.router.navigate(['/userHome']);
+        localStorage.setItem('user', JSON.stringify(response.user)); // Redirect to dashboard
       },
       error: (err: { error: { message: string } }) => {
         this.messageService.add({ severity: 'error', summary: 'Login Failed', detail: err.error.message || "Invalid Email or Password" });
