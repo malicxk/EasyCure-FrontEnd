@@ -125,7 +125,7 @@
                     (click)="viewDoctorsBySpecialty(specialty.specialtyName,specialty._id)">
                     <div class="flex-1">
                         <!-- Check if specialtyImage exists, otherwise use a default image or placeholder -->
-                        <img class="group-hover:scale-105 transition-transform duration-500 ease-in-out rounded-t-xl w-full h-full object-cover"
+                        <img class="group-hover:scale-105 transition-transform duration-500 ease-in-out rounded-t-xl w-full h-full object-contain"
                             [src]="specialty.specialtyImage ? specialty.specialtyImage : 'https://via.placeholder.com/800x600'"
                             alt="{{ specialty.specialtyName }}">
                     </div>
