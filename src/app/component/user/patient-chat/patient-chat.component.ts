@@ -238,7 +238,6 @@ export class PatientChatComponent implements OnInit, OnDestroy {
     }
   };
 
-
   //this is for providing feedbacks by patient to doctor
   openFeedbackModal() {
     this.feedbackForm.patchValue({
