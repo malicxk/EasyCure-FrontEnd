@@ -55,6 +55,7 @@ export class DoctorChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.hideFooter()//this is for hiding the footer.......
+    this.loadBookings()
     this.route.params.subscribe(params => {
       this.bookingId = params['bookingId'];
       this.patientName = params['patientName'];
@@ -62,7 +63,6 @@ export class DoctorChatComponent implements OnInit, OnDestroy {
       console.log("The sender id is", this.senderId);
       this.fetchUserDetails(this.bookingId);
       this.initializeForm();//this form is intialized for the prescrition data entry........
-      this.loadBookings()
     });
 
     this.messageSubscription = this.chatService.receiveMessage().subscribe((message) => {
