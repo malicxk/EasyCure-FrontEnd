@@ -18,6 +18,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
   doctors: Doctor[] = [];
   specialties: Specialty[] = [];
   imageUrl: string | ArrayBuffer | null = null;
+  user = JSON.parse(localStorage.getItem('user') || '{}');
 
   constructor(
     private layoutService: LayoutService,
@@ -29,6 +30,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    console.log("The user is", this.user);
     this.layoutService.setShowFooter(true);
     this.fetchDoctor();
     this.fetchSpecialties();
