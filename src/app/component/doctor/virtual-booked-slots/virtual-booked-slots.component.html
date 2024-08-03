@@ -82,10 +82,15 @@
                 Cancel
               </button> -->
               <label (click)="confirmCancelBooking(booking.userId._id, booking._id, booking.amount)"
-                class="relative inline-flex items-center cursor-pointer">
+                class="relative inline-flex items-center justify-center cursor-pointer">
                 <input type="checkbox" value="" class="sr-only peer">
                 <div
-                  class="peer ring-0 bg-rose-400  rounded-full outline-none duration-300 after:duration-500 w-12 h-12">
+                  class="relative w-12 h-12 bg-rose-400 rounded-full flex items-center justify-center peer-focus:ring-2 peer-focus:ring-blue-500">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                  </svg>
                 </div>
               </label>
             </td>
