@@ -33,7 +33,9 @@ export class MyBookingsComponent {
   fetchBookings(): void {
     this.userService.getUserBookings(this.userId).subscribe({
       next: (data) => {
-        this.messageService.add({ severity: 'success', summary: 'Doctor will available on the time', detail: "Chat with doctor with that icon" });
+        if(data){
+          this.messageService.add({ severity: 'success', summary: 'Doctor will available on the time', detail: "Chat with doctor with that icon" });
+        }
         this.bookings = data.filter(booking => booking.bookingStatus);  // Only show bookings with status true
       },
       error: (err) => {
