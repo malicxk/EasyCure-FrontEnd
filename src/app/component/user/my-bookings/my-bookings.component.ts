@@ -28,13 +28,13 @@ export class MyBookingsComponent {
   ngOnInit(): void {
     this._layoutService.setShowFooter(true);
     this.fetchBookings();
-    this.messageService.add({ severity: 'success', summary: 'These are your booked slots', detail: "Chat with doctor with that icon" });
   }
 
   fetchBookings(): void {
     this.userService.getUserBookings(this.userId).subscribe({
       next: (data) => {
-        this.bookings = data.filter(booking => booking.bookingStatus);  // Only show bookings with status true
+        this.bookings = data.filter(booking => booking.bookingStatus);
+        this.messageService.add({ severity: 'success', summary: 'These are your booked slots', detail: "Chat with doctor with that icon" });  // Only show bookings with status true
       },
       error: (err) => {
         console.error('Error fetching bookings', err);
