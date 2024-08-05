@@ -170,6 +170,7 @@ export class SlotsComponent implements OnInit {
     this.adminService.updateSlotStatus(slotId, isBooked).subscribe({
       next: (response) => {
         this.messageService.add({ severity: 'success', summary: 'check my slots for status', detail: "Slot booked now you can chat" });
+        this.router.navigate(['/myBookings']);
       },
       error: (error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.message });
