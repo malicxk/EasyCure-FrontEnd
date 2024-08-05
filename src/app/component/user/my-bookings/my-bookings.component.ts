@@ -28,6 +28,7 @@ export class MyBookingsComponent {
   ngOnInit(): void {
     this._layoutService.setShowFooter(true);
     this.fetchBookings();
+    this.messageService.add({ severity: 'success', summary: 'These are your booked slots', detail: "Chat with doctor with that icon" });
   }
 
   fetchBookings(): void {
