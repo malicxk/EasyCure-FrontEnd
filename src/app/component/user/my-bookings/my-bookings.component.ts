@@ -33,8 +33,8 @@ export class MyBookingsComponent {
   fetchBookings(): void {
     this.userService.getUserBookings(this.userId).subscribe({
       next: (data) => {
-        this.bookings = data.filter(booking => booking.bookingStatus);
-        this.messageService.add({ severity: 'success', summary: 'These are your booked slots', detail: "Chat with doctor with that icon" });  // Only show bookings with status true
+        this.messageService.add({ severity: 'success', summary: 'Doctor will available on the time', detail: "Chat with doctor with that icon" });
+        this.bookings = data.filter(booking => booking.bookingStatus);  // Only show bookings with status true
       },
       error: (err) => {
         console.error('Error fetching bookings', err);
