@@ -116,6 +116,7 @@ export class SlotsComponent implements OnInit {
         this.fetchSlotsForDoctor(this.doctorId);
         this._ngZone.run(() => {
           this.messageService.add({ severity: 'success', summary: 'Slot booked', detail: "Now you can chat with doctor" });
+          this.router.navigate(['/myBookings']);
         });
       },
       error: (error: any) => {
