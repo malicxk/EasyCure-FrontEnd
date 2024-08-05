@@ -70,9 +70,9 @@ export class PatientChatComponent implements OnInit, OnDestroy {
     this.hideFooter()//just hiding the footer....
     this.route.queryParams.subscribe(params => {
       this.receiverId = params['doctorId'];
-      this.loadMessages();
       this.fetchDoctorDetails()
       this.joinRoom();
+      this.loadMessages();
       this.fetchPrescriptions()
     });
     // Subscribe to incoming messages
