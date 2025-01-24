@@ -19,7 +19,7 @@ export class ChatService {
   };
 
   constructor(private http: HttpClient) {
-    this.socket = io('https://mkart.shop/');
+    this.socket = io('https://easycure-backend.onrender.com/');
   };
 
   connect(): void {
